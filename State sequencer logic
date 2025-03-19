@@ -1,0 +1,21 @@
+// State sequencer logic
+	always @(posedge clk or negedge rst_n) begin
+	    if(!rst_n)
+		    state <= IDLE;
+	    else
+		    state <= next_state;
+	end
+	
+	assign state_out = state; // connect with output port
+	
+	// Timer logic
+	always @(posedge clk or negedge rst_n) begin
+	    if(!rst_n)
+		    timer <= 0;
+	    else if (state == ACCESS_GRANTED)
+		    timer <= timer + 1'b1; // increment timer only in this state
+	    else
+		    timer <= 0;
+	end
+	
+endmodule
